@@ -1,0 +1,26 @@
+[project]
+name = "fast-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.115.8",
+    "ignr>=2.2",
+    "uvicorn>=0.34.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-cov>=4.1.0",
+    "taskipy>=1.14.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+
+[tool.taskipy.tasks]
+run = 'fastapi dev app.py'
+test = 'pytest --cov=app -vv'
+post_test = 'coverage html'
