@@ -5,8 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "alembic>=1.14.1",
     "fastapi[standard]>=0.115.8",
     "ignr>=2.2",
+    "pydantic-settings>=2.7.1",
+    "sqlalchemy>=2.0.37",
     "uvicorn>=0.34.0",
 ]
 
@@ -23,6 +26,6 @@ dev = [
 pythonpath = "."
 
 [tool.taskipy.tasks]
-run = 'fastapi dev app.py'
-test = 'pytest --cov=app -vv'
+run = 'fastapi dev fast_api/app.py'
+test = 'pytest --cov=fast_api -vv'
 post_test = 'coverage html'

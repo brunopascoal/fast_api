@@ -1,52 +1,65 @@
 from http import HTTPStatus
-from tests.conftest import client
+from tests.conftest import client, user
+from fast_api.schemas import UserPublicSchema
 
-def test_create_user_ok(client):
+def test_create_user(client):
     
     response = client.post("/users/", json={
-        "name": "testeusername", 
+        "username": "testeusername", 
         "email": "test@test.com", 
         "password": "password"
         })
     
     assert response.status_code == HTTPStatus.CREATED #voltou status correto?
     assert response.json() == {
-        "name": "testeusername",
+        "username": "testeusername",
         "email": "test@test.com",
         "id": 1
     }
+    
+def test_already_create_user(client):
+    register = client.post("/users/", json={
+        "username": "testeusername", 
+        "email": "test@test.com", 
+        "password": "password"
+        })
+    
+    response = client.post("/users/", json={
+        "username": "testeusername", 
+        "email": "test@test.com", 
+        "password": "password"
+        })
+    assert response.status_code == HTTPStatus.BAD_REQUEST #voltou status correto?
 
-def test_read_users_ok(client):
+
+    
+def test_read_users_with_user(client, user):
+    user_schema = UserPublicSchema.model_validate(user).model_dump()
     response = client.get("/users/")
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'users': [
-        {
-            "id": 1,
-            "name": "testeusername",
-            "email": "test@test.com"
-        }
+        user_schema
     ]}
 
-def test_update_user_ok(client):
+def test_update_user(client, user):
     response = client.put("/users/1", json={
-        "name": "testeusername2",
+        "username": "testeusername2",
         "email": "test@test.com",
         "password": "password",
-
         "id": 1
     })
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
         "id": 1,
-        "name": "testeusername2",
+        "username": "testeusername2",
         "email": "test@test.com"
     }
 
 
-def test_delete_user_ok(client):
+def test_delete_user(client, user):
     response = client.delete("/users/1")
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {"message": "User deleted successfully"}
+    assert response.json() == {"message": "User deleted"}
 
 
 def test_delete_user_not_found(client):
