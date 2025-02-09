@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.14.1",
+    "annotated>=0.0.2",
     "fastapi[standard]>=0.115.8",
     "ignr>=2.2",
     "pwdlib[argon2]>=0.2.1",
