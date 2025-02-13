@@ -7,7 +7,7 @@ from sqlalchemy import select
 
 from fast_api.database import get_session
 from fast_api.schemas import Token
-from fast_api.security import verify_password, create_access_token
+from fast_api.security import verify_password, create_access_token, get_current_user
 from fast_api.models import User
 
 
@@ -26,3 +26,12 @@ def login_for_acess_token(session: T_Session, form_data: T_OAuth2Form):
     access_token = create_access_token(data={"sub": user.username})
 
     return {"access_token": access_token, "token_type": "Bearer"}
+
+
+@router.post('/refresh_token', response_model=Token)
+def refresh_access_token(
+    user: User = Depends(get_current_user),
+):
+    new_access_token = create_access_token(data={'sub': user.username})
+
+    return {'access_token': new_access_token, 'token_type': 'bearer'}

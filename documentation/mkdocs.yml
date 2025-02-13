@@ -1,0 +1,17 @@
+site_name: FastAPI
+nav:
+  - Home: index.md
+  - About: about.md
+theme:
+  name: material
+  palette:
+    - scheme: default  # Tema claro
+      primary: indigo  # Cor da navbar
+      toggle:
+        icon: material/weather-sunny
+        name: Mudar para o modo escuro
+    - scheme: slate  # Tema escuro
+      primary: black  # Cor da navbar no modo escuro
+      toggle:
+        icon: material/weather-night
+        name: Mudar para o modo claro
