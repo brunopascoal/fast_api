@@ -18,10 +18,9 @@ class UserFactory(factory.Factory):
     class Meta:
         model = User
 
-    username = factory.Sequence(lambda n: f'test{n}')
-    email = factory.LazyAttribute(lambda obj: f'{obj.username}@test.com')
-    password = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')
-
+    username = factory.Sequence(lambda n: f"test{n}")
+    email = factory.LazyAttribute(lambda obj: f"{obj.username}@test.com")
+    password = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
 
 
 @pytest.fixture
@@ -63,9 +62,10 @@ def user(session):
 
     return user
 
+
 @pytest.fixture
 def other_user(session):
-    password = 'testtest'
+    password = "testtest"
     user = UserFactory(password=get_password_hash(password))
 
     session.add(user)
@@ -75,6 +75,7 @@ def other_user(session):
     user.clean_password = password
 
     return user
+
 
 @pytest.fixture
 def token(client, user):

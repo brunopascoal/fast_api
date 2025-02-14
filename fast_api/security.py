@@ -33,7 +33,8 @@ def create_access_token(data: dict):
     to_encode = data.copy()
 
     # added a time for 30 minutes expire
-    expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+    expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
     # add the time expire to dict to_encode using method update
@@ -49,15 +50,13 @@ def get_current_user(
 ):
     credentials_exception = HTTPException(
         status_code=HTTPStatus.UNAUTHORIZED,
-        detail='Could not validate credentials',
-        headers={'WWW-Authenticate': 'Bearer'},
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
     )
 
     try:
-        payload = decode(
-            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
-        )
-        subject_username = payload.get('sub')
+        payload = decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        subject_username = payload.get("sub")
 
         if not subject_username:
             raise credentials_exception
@@ -68,9 +67,7 @@ def get_current_user(
     except ExpiredSignatureError:
         raise credentials_exception
 
-    user = session.scalar(
-        select(User).where(User.username == subject_username)
-    )
+    user = session.scalar(select(User).where(User.username == subject_username))
 
     if not user:
         raise credentials_exception

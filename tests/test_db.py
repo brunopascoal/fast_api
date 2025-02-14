@@ -15,12 +15,13 @@ def teste_create_user(session):
 
     assert user_from_db.email == "test@test.com"
 
+
 # ...
 def test_create_todo(session, user: User):
     todo = Todo(
-        title='Test Todo',
-        description='Test Desc',
-        state='draft',
+        title="Test Todo",
+        description="Test Desc",
+        state="draft",
         user_id=user.id,
     )
 
