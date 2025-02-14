@@ -1,5 +1,5 @@
-from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel, EmailStr, ConfigDict
+from fast_api.models import TodoState
 
 
 class Message(BaseModel):
@@ -26,3 +26,34 @@ class UserList(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class TodoSchema(BaseModel):
+    title: str
+    description: str
+    state: TodoState
+
+
+class TodoPublic(TodoSchema):
+    id: int
+
+
+class TodoList(BaseModel):
+    todos: list[TodoPublic]
+    
+
+class TodoUpdate(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    state: TodoState | None = None
+    
+    
+class FilterPage(BaseModel):
+    offset: int = 0
+    limit: int = 100
+
+
+class FilterTodo(FilterPage):
+    title: str | None = None
+    description: str | None = None
+    state: TodoState | None = None

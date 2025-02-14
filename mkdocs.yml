@@ -1,0 +1,17 @@
+site_name: FastAPI
+nav:
+  - Home: index.md
+  - About: about.md
+theme:
+  name: material
+  palette:
+    - scheme: default  
+      primary: indigo  
+      toggle:
+        icon: material/weather-sunny
+        name: Dark Mode
+    - scheme: slate 
+      primary: black  
+      toggle:
+        icon: material/weather-night
+        name: White Mode
